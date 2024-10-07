@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+        }
+    </style>
+    <script>
+        // In-memory storage for courses
+        let courses = [
+            { id: 1, title: "JavaScript Basics", description: "Learn the fundamentals of JS", duration: "3 hours" },
+            { id: 2, title: "Node.js for Beginners", description: "Introduction to Node.js", duration: "5 hours" }
+        ];
+
+        // Function to display courses in the console
+        function displayCourses() {
+            console.clear();
+            console.log("Courses:");
+            courses.forEach(course => {
+                console.log(`ID: ${course.id}, Title: ${course.title}, Description: ${course.description}, Duration: ${course.duration}`);
+            });
+        }
+
+        // Function to add a new course
+        function addCourse() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const duration = document.getElementById('duration').value;
+
+            if (!title || !description || !duration) {
+                alert('All fields are required');
+                return;
+            }
+
+            const newCourse = {
+                id: courses.length + 1,
+                title,
+                description,
+                duration
+            };
+
+            courses.push(newCourse);
+            displayCourses();
+            alert('Course added successfully!');
+            clearInputFields();
+        }
+
+        // Function to clear input fields
+        function clearInputFields() {
+            document.getElementById('title').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('duration').value = '';
+        }
+
+        // Function to update a course by ID
+        function updateCourse() {
+            const id = parseInt(document.getElementById('updateId').value);
+            const title = document.getElementById('updateTitle').value;
+            const description = document.getElementById('updateDescription').value;
+            const duration = document.getElementById('updateDuration').value;
+
+            const course = courses.find(c => c.id === id);
+            if (!course) {
+                alert('Course not found');
+                return;
+            }
+
+            if (title) course.title = title;
+            if (description) course.description = description;
+            if (duration) course.duration = duration;
+
+            displayCourses();
+            alert('Course updated successfully!');
+            clearUpdateFields();
+        }
+
+        // Function to clear update input fields
+        function clearUpdateFields() {
+            document.getElementById('updateId').value = '';
+            document.getElementById('updateTitle').value = '';
+            document.getElementById('updateDescription').value = '';
+            document.getElementById('updateDuration').value = '';
+        }
+
+        // Function to delete a course by ID
+        function deleteCourse() {
+            const id = parseInt(document.getElementById('deleteId').value);
+            const courseIndex = courses.findIndex(c => c.id === id);
+
+            if (courseIndex === -1) {
+                alert('Course not found');
+                return;
+            }
+
+            courses.splice(courseIndex, 1);
+            displayCourses();
+            alert('Course deleted successfully!');
+            clearDeleteFields();
+        }
+
+        // Function to clear delete input fields
+        function clearDeleteFields() {
+            document.getElementById('deleteId').value = '';
+        }
+
+        // Call the function to display courses when the page loads
+        window.onload = function() {
+            displayCourses();
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Course Management</h1>
+
+        <h2>Add Course</h2>
+        <input type="text" id="title" placeholder="Course Title" required><br>
+        <textarea id="description" placeholder="Course Description" required></textarea><br>
+        <input type="text" id="duration" placeholder="Course Duration" required><br>
+        <button onclick="addCourse()">Add Course</button>
+
+        <h2>Update Course</h2>
+        <input type="number" id="updateId" placeholder="Course ID" required><br>
+        <input type="text" id="updateTitle" placeholder="New Course Title"><br>
+        <textarea id="updateDescription" placeholder="New Course Description"></textarea><br>
+        <input type="text" id="updateDuration" placeholder="New Course Duration"><br>
+        <button onclick="updateCourse()">Update Course</button>
+
+        <h2>Delete Course</h2>
+        <input type="number" id="deleteId" placeholder="Course ID" required><br>
+        <button onclick="deleteCourse()">Delete Course</button>
+
+        <p>Check the console for course details.</p>
+    </div>
+</body>
+</html>
